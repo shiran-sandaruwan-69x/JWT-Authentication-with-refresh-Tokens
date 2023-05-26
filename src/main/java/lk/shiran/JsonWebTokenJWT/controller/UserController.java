@@ -2,6 +2,7 @@ package lk.shiran.JsonWebTokenJWT.controller;
 
 import lk.shiran.JsonWebTokenJWT.dto.AppRoleDTO;
 import lk.shiran.JsonWebTokenJWT.dto.AppUserDTO;
+import lk.shiran.JsonWebTokenJWT.dto.RoleUserDTO;
 import lk.shiran.JsonWebTokenJWT.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,10 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
+    @PostMapping("/role/addtouser")
+    public ResponseEntity<?> addRoleToUser(@RequestBody RoleUserDTO roleUserDTO){
+        userService.addRoleToUser(roleUserDTO.getUsername(),roleUserDTO.getRoleName());
+        return ResponseEntity.ok().build();
+    }
 
 }
