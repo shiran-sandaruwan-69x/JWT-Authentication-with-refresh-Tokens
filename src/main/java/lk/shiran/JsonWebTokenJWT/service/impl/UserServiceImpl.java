@@ -64,6 +64,7 @@ public class UserServiceImpl implements UserService {
     public AppUserDTO getUser(String username) {
         log.info("fetching user {}",username);
         return mapper.map(userRepo.findByUsername(username),AppUserDTO.class);
+
     }
 
     @Override
