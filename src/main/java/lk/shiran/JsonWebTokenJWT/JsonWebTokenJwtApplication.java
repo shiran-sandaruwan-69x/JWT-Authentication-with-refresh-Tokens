@@ -29,6 +29,7 @@ public class JsonWebTokenJwtApplication {
 
 	CommandLineRunner run(UserService userService){
 		return args -> {
+
 			userService.saveRole(new AppRoleDTO(null,"ROLE_USER"));
 			userService.saveRole(new AppRoleDTO(null,"ROLE_MANAGER"));
 			userService.saveRole(new AppRoleDTO(null,"ROLE_ADMIN"));
