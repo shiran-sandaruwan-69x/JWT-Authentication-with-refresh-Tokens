@@ -27,6 +27,7 @@ public class JsonWebTokenJwtApplication {
 		return new ModelMapper();
 	}
 
+	@Bean
 	CommandLineRunner run(UserService userService){
 		return args -> {
 
