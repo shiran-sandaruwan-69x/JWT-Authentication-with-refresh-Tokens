@@ -8,6 +8,7 @@ import lk.shiran.JsonWebTokenJWT.repo.RoleRepo;
 import lk.shiran.JsonWebTokenJWT.repo.UserRepo;
 import lk.shiran.JsonWebTokenJWT.service.UserService;
 import lombok.Lombok;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public AppUserDTO saveUser(AppUserDTO appUserDTO) {
         if (appUserDTO != null){
+         log.info("saving new user {} to database",appUserDTO.getName());
          userRepo.save(mapper.map(appUserDTO,AppUser.class));
          return appUserDTO;
         }
@@ -42,6 +45,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public AppRoleDTO saveRole(AppRoleDTO appRoleDTO) {
         if (appRoleDTO != null){
+            log.info("saving new role {} to database",appRoleDTO.getName());
             roleRepo.save(mapper.map(appRoleDTO, AppRole.class));
             return appRoleDTO;
         }
@@ -50,6 +54,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addRoleToUser(String username, String roleName) {
+        log.info("Adding role {} to user {}",roleName,username);
         AppUser user = userRepo.findByUsername(username);
         AppRole role = roleRepo.findByName(roleName);
         user.getRoles().add(role);
@@ -57,11 +62,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AppUserDTO getUser(String username) {
+        log.info("fetching user {}",username);
         return mapper.map(userRepo.findByUsername(username),AppUserDTO.class);
     }
 
     @Override
     public List<AppUserDTO> getUsers() {
+        log.info("fetching all users");
         return mapper.map(userRepo.findAll(), new TypeToken<ArrayList<AppUserDTO>>(){}.getType());
     }
 }

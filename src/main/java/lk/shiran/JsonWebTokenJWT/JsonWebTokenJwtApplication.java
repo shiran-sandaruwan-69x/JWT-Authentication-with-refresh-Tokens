@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class JsonWebTokenJwtApplication {
 
+	public String PORT=System.getenv("PORT");
+
 	public static void main(String[] args) {
 
 		SpringApplication.run(JsonWebTokenJwtApplication.class);
