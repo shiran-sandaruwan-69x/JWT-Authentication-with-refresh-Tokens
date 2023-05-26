@@ -5,8 +5,11 @@ import lk.shiran.JsonWebTokenJWT.dto.AppUserDTO;
 import lk.shiran.JsonWebTokenJWT.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -24,14 +27,16 @@ public class UserController {
 
     @PostMapping("/user/save")
     public ResponseEntity<AppUserDTO> saveUser(@RequestBody AppUserDTO userDTO){
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequestUri().path("/api/user/user/save").toUriString());
         AppUserDTO appUserDTO = userService.saveUser(userDTO);
-        return ResponseEntity.ok().body(appUserDTO);
+        return ResponseEntity.created(uri).body(appUserDTO);
     }
 
     @PostMapping("/role/save")
     public ResponseEntity<AppRoleDTO> saveRole(@RequestBody AppRoleDTO roleDTO){
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequestUri().path("/api/user/role/save").toUriString());
         AppRoleDTO appRoleDTO = userService.saveRole(roleDTO);
-        return ResponseEntity.ok().body(appRoleDTO);
+        return ResponseEntity.created(uri).body(appRoleDTO);
     }
 
     @GetMapping("/user/{username}")
