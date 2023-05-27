@@ -35,7 +35,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
         }else {
 
-               // token ekak thiyanawa nam verify karana eka karanne
+               // token ekak thiyanawa nam verify karana eka karanne .
 
                String authorizationHeader = request.getHeader(AUTHORIZATION);
 
