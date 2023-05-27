@@ -22,7 +22,7 @@ public class UserController {
     // default enne post http method type eken
 
     //http://localhost:8080/JsonWebTokenJWT/login me default url ek change karnn puluwan apita
-    // eka SecurityConfig eka krl thiyanwa /api/login walata == http://localhost:8080/JsonWebTokenJWT/api/login
+    // eka SecurityConfig eka krl thiyanwa /api/userlogin walata == http://localhost:8080/JsonWebTokenJWT/api/userlogin
 
     @Autowired
     private UserService userService;
