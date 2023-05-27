@@ -20,6 +20,9 @@ public class AppUser {
     private String name;
     private String username;
     private String password;
+
+    // FetchType.LAZY wala okoma data tika load kara gannawa collection eke thiyana eka application ek slow wenna puluwan
+    // a nisa api FetchType.EAGER use karanawa collection walata
     @ManyToMany(fetch = EAGER)
     private Collection<AppRole> roles = new ArrayList<>();
 }

@@ -8,6 +8,7 @@ import lk.shiran.JsonWebTokenJWT.repo.RoleRepo;
 import lk.shiran.JsonWebTokenJWT.repo.UserRepo;
 import lk.shiran.JsonWebTokenJWT.service.UserService;
 import lombok.Lombok;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
@@ -28,16 +30,18 @@ import java.util.List;
 @Service
 @Transactional
 @Slf4j
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    @Autowired
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
 
-    @Autowired
-    private RoleRepo roleRepo;
+    private final RoleRepo roleRepo;
 
     @Autowired
     private ModelMapper mapper;
+
+    private final PasswordEncoder passwordEncoder;
+
 
     // meken kare spring security walata role tika add kara and access karanna ena user wa add kara
     @Override
@@ -61,6 +65,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public AppUserDTO saveUser(AppUserDTO appUserDTO) {
         if (appUserDTO != null){
          log.info("saving new user {} to database",appUserDTO.getName());
+         // meken eken passwordEncoder karana eka karanne
+         appUserDTO.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
          userRepo.save(mapper.map(appUserDTO,AppUser.class));
          return appUserDTO;
         }
