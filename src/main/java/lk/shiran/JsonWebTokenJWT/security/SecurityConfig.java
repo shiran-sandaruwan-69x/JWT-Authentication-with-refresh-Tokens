@@ -14,6 +14,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+
 
 @Configuration
 @EnableWebSecurity
@@ -33,7 +36,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().anyRequest().permitAll();
+
+        //me login eka enne filter wala UsernamePasswordAuthenticationFilter eken
+        http.authorizeRequests().antMatchers("/login").permitAll();
+
+        // meken wenne validation wena eka ROLE_USER thiyana ayata vitharai me controller eka access krnn puluwan
+        http.authorizeRequests().antMatchers(GET,"/api/user/users/**").hasAnyAuthority("ROLE_USER");
+        http.authorizeRequests().antMatchers(POST,"/api/user/role/save/**").hasAnyAuthority("ROLE_ADMIN");
+
+        //meka danmama ona class ekk ona kenekta access krnn puluwan
+       // http.authorizeRequests().anyRequest().permitAll();
+
+        http.authorizeRequests().anyRequest().authenticated();
+
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
     }
 

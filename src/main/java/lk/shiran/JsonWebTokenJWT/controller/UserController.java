@@ -18,7 +18,8 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
 
-    // http://localhost:8080/JsonWebTokenJWT/login me login method eka enne filter
+    // http://localhost:8080/JsonWebTokenJWT/login me login method eka enne filter wala UsernamePasswordAuthenticationFilter
+    // default enne post http method type eken
 
     @Autowired
     private UserService userService;
