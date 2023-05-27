@@ -12,16 +12,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
 @Transactional
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private UserRepo userRepo;
@@ -31,6 +38,24 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ModelMapper mapper;
+
+    // meken kare spring security walata role tika add kara and access karanna ena user wa add kara
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        AppUser user = userRepo.findByUsername(username);
+        if (user == null){
+            log.error("user not found database");
+            throw new UsernameNotFoundException("user not found database");
+        }else{
+            log.info("user found database {}",username);
+        }
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.getRoles().forEach(appRole -> {
+            authorities.add(new SimpleGrantedAuthority(appRole.getName()));
+        });
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),authorities);
+    }
 
     @Override
     public AppUserDTO saveUser(AppUserDTO appUserDTO) {
@@ -72,4 +97,6 @@ public class UserServiceImpl implements UserService {
         log.info("fetching all users");
         return mapper.map(userRepo.findAll(), new TypeToken<ArrayList<AppUserDTO>>(){}.getType());
     }
+
+
 }

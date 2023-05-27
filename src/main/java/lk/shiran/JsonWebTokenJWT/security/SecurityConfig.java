@@ -6,15 +6,20 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserDetailsManager userDetailsManager;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+        auth.userDetailsService(userDetailsManager).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
