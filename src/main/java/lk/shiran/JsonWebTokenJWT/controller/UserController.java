@@ -21,6 +21,9 @@ public class UserController {
     // http://localhost:8080/JsonWebTokenJWT/login me login method eka enne filter wala UsernamePasswordAuthenticationFilter
     // default enne post http method type eken
 
+    //http://localhost:8080/JsonWebTokenJWT/login me default url ek change karnn puluwan apita
+    // eka SecurityConfig eka krl thiyanwa /api/login walata == http://localhost:8080/JsonWebTokenJWT/api/login
+
     @Autowired
     private UserService userService;
 
