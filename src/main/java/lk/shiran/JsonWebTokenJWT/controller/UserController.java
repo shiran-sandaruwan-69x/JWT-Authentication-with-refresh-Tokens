@@ -10,8 +10,12 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.util.List;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
 @CrossOrigin
@@ -56,6 +60,11 @@ public class UserController {
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleUserDTO roleUserDTO){
         userService.addRoleToUser(roleUserDTO.getUsername(),roleUserDTO.getRoleName());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/role/addtouser")
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response){
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
     }
 
 }

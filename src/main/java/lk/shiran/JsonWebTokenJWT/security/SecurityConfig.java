@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/userlogin/**").permitAll();
 
         // meken wenne validation wena eka ROLE_USER thiyana ayata vitharai me controller eka access krnn puluwan
-        http.authorizeRequests().antMatchers(GET,"/api/user/users/**").hasAnyAuthority("ROLE_USER");
+        http.authorizeRequests().antMatchers(GET,"/api/user/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST,"/api/user/role/save/**").hasAnyAuthority("ROLE_ADMIN");
 
         //meka danmama ona class ekk ona kenekta access krnn puluwan

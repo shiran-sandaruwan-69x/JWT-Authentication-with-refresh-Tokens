@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -27,6 +28,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
+@Component
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
@@ -49,7 +51,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                    DecodedJWT decodedJWT = verifier.verify(token);
 
                    String username = decodedJWT.getSubject();
-                   String [] roles = decodedJWT.getClaim("roles").asArray(String.class);
+                   String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
 
                    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                    stream(roles).forEach(role -> {
