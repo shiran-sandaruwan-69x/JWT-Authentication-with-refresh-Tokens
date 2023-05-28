@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //me login eka enne filter wala UsernamePasswordAuthenticationFilter eken
         //http.authorizeRequests().antMatchers("/login").permitAll();
 
-        http.authorizeRequests().antMatchers("/api/userlogin/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/userlogin/**","/api/user/token/refresh/**").permitAll();
 
         // meken wenne validation wena eka ROLE_USER thiyana ayata vitharai me controller eka access krnn puluwan
         http.authorizeRequests().antMatchers(GET,"/api/user/**").hasAnyAuthority("ROLE_USER");

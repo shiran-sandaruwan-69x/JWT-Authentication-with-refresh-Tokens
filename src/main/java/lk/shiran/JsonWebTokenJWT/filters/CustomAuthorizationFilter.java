@@ -28,12 +28,11 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
-@Component
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("/api/userlogin")){
+        if (request.getServletPath().equals("/api/userlogin") || request.getServletPath().equals("/api/user/token/refresh")){
             filterChain.doFilter(request,response);
         }else {
 
@@ -65,11 +64,12 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                    filterChain.doFilter(request,response);
 
                }catch (Exception e){
+
                    log.info("Error login {}",e.getMessage());
                    System.out.println(e.getMessage());
+
                    response.setHeader("error",e.getMessage());
                    response.setStatus(FORBIDDEN.value());
-                  // response.sendError(FORBIDDEN.value());
                    Map<String,String> error = new HashMap<>();
                    error.put("error_message",e.getMessage());
                    response.setContentType(APPLICATION_JSON_VALUE);
